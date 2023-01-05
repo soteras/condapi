@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :condapi, Condapi.Repo,
-  username: "postgres",
-  password: "postgres",
   hostname: "localhost",
   database: "condapi_dev",
+  username: "condapi",
+  password: "condapi",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

@@ -6,10 +6,10 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :condapi, Condapi.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "condapi",
+  password: "condapi",
   hostname: "localhost",
-  database: "condapi_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "condapi_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
