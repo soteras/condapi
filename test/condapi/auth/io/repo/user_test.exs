@@ -49,4 +49,18 @@ defmodule Condapi.Auth.Io.Repo.UserTest do
       assert {:error, :not_found} = Repo.fetch_by(email: "test@gmail.com")
     end
   end
+
+  describe "fetch/1" do
+    test "gets user by id" do
+      target = insert(:user, email: "test@gmail.com")
+
+      {:ok, user} = Repo.fetch(target.id)
+
+      assert user.id == target.id
+    end
+
+    test "when user not exist" do
+      assert {:error, :not_found} = Repo.fetch(999)
+    end
+  end
 end

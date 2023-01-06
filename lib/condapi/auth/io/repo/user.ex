@@ -18,4 +18,9 @@ defmodule Condapi.Auth.Io.Repo.User do
   def fetch_by(params) do
     fetch_by(User, params)
   end
+
+  @impl true
+  def fetch(id) do
+    fetch(User, id)
+  end
 end
