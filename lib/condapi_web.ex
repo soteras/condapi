@@ -17,12 +17,18 @@ defmodule CondapiWeb do
   and import those modules here.
   """
 
+  alias CondapiWeb.BaseView
+
+  import Phoenix.Controller, only: [put_view: 2, render: 3]
+  import Plug.Conn
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: CondapiWeb
 
       import Plug.Conn
       import CondapiWeb.Gettext
+      import CondapiWeb, only: [render_response: 2, render_response: 3]
       alias CondapiWeb.Router.Helpers, as: Routes
     end
   end
@@ -67,6 +73,39 @@ defmodule CondapiWeb do
       import CondapiWeb.Gettext
       alias CondapiWeb.Router.Helpers, as: Routes
     end
+  end
+
+  @doc """
+  Renderiza uma resposta de sucesso com `data` no body ou `nil` se `data` for vazio.
+  Assim o FallbackController pode renderizar a resposta corretamente.
+  """
+  def render_response(nil, _conn), do: nil
+
+  @spec render_response(atom, Plug.Conn.t()) :: Plug.Conn.t()
+  def render_response(:empty, conn) do
+    conn
+    |> put_status(:ok)
+    |> put_view(BaseView)
+    |> render("response.json", data: :empty)
+  end
+
+  @spec render_response(map | list, Plug.Conn.t()) :: Plug.Conn.t()
+  def render_response(data, conn) do
+    conn
+    |> put_status(:ok)
+    |> put_view(BaseView)
+    |> render("response.json", data: data)
+  end
+
+  @doc """
+  Renderiza resposta com status e `data` no body.
+  """
+  @spec render_response(map | list, Plug.Conn.t(), atom) :: Plug.Conn.t()
+  def render_response(data, conn, status) do
+    conn
+    |> put_status(status)
+    |> put_view(BaseView)
+    |> render("response.json", data: data)
   end
 
   @doc """
