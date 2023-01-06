@@ -10,8 +10,7 @@ defmodule Condapi.Factory do
 
   def user_factory do
     %User{
-      name: "User test",
-      email: "test@gmail.com",
+      username: "test",
       password_hash: Bcrypt.hash_pwd_salt("abc123")
     }
   end

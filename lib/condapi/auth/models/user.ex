@@ -3,11 +3,10 @@ defmodule Condapi.Auth.Models.User do
 
   use Condapi, :model
 
-  @required_fields ~w(name email password)a
+  @required_fields ~w(username password)a
 
   schema "users" do
-    field :name, TrimmedString
-    field :email, TrimmedString
+    field :username, TrimmedString
     field :password, TrimmedString, virtual: true
     field :password_hash, TrimmedString
 
@@ -19,10 +18,8 @@ defmodule Condapi.Auth.Models.User do
     model
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
-    |> validate_length(:name, min: 2)
     |> validate_length(:password, min: 6)
-    |> validate_format(:email, ~r/@/)
-    |> unique_constraint([:email])
+    |> unique_constraint([:username])
     |> maybe_put_pass_hash()
   end
 

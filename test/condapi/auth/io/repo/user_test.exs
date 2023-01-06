@@ -8,51 +8,46 @@ defmodule Condapi.Auth.Io.Repo.UserTest do
   describe "insert/1" do
     test "with valid attrs" do
       attrs = %{
-        name: "User test",
-        email: "test@gmail.com",
+        username: "test",
         password: "abc123"
       }
 
       {:ok, user} = Repo.insert(attrs)
 
-      assert user.name == "User test"
-      assert user.email == "test@gmail.com"
-      assert is_binary(user.password_hash)
+      assert user.username == "test"
       assert Bcrypt.verify_pass("abc123", user.password_hash)
     end
 
     test "with invalid attrs" do
       attrs = %{
-        name: "",
-        email: "test",
+        username: "",
         password: ""
       }
 
       {:error, changeset} = Repo.insert(attrs)
 
-      assert errors_on(changeset).name == ["can't be blank"]
-      assert errors_on(changeset).email == ["has invalid format"]
+      assert errors_on(changeset).username == ["can't be blank"]
       assert errors_on(changeset).password == ["can't be blank"]
     end
   end
 
   describe "fetch_by/1" do
-    test "gets user by email" do
-      target = insert(:user, email: "test@gmail.com")
+    test "gets user by username" do
+      target = insert(:user, username: "test")
 
-      {:ok, user} = Repo.fetch_by(email: "test@gmail.com")
+      {:ok, user} = Repo.fetch_by(username: "test")
 
       assert user.id == target.id
     end
 
     test "when user not exist" do
-      assert {:error, :not_found} = Repo.fetch_by(email: "test@gmail.com")
+      assert {:error, :not_found} = Repo.fetch_by(username: "test")
     end
   end
 
   describe "fetch/1" do
     test "gets user by id" do
-      target = insert(:user, email: "test@gmail.com")
+      target = insert(:user, username: "test")
 
       {:ok, user} = Repo.fetch(target.id)
 
