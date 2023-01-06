@@ -29,11 +29,11 @@ defmodule CondapiWeb.FallbackController do
     |> render("error.json", reason: gettext("Access Denied"))
   end
 
-  def call(conn, {:error, :invalid_email_or_password}) do
+  def call(conn, {:error, :invalid_username_or_password}) do
     conn
     |> put_status(:unauthorized)
     |> put_view(ErrorView)
-    |> render("error.json", reason: gettext("Email or Password are invalid"))
+    |> render("error.json", reason: gettext("Username or Password are invalid"))
   end
 
   def call(conn, {:error, :not_found}) do

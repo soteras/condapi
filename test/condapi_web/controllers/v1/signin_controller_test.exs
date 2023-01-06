@@ -5,10 +5,10 @@ defmodule CondapiWeb.Controllers.V1.SigninControllerTest do
 
   describe "POST: /v1/signin" do
     setup do
-      insert(:user, email: "test@gmail.com", password: "abc123")
+      insert(:user, username: "test", password: "abc123")
 
       attrs = %{
-        email: "TEST@gmail.com",
+        username: "TEST",
         password: "abc123"
       }
 
@@ -23,12 +23,12 @@ defmodule CondapiWeb.Controllers.V1.SigninControllerTest do
       assert is_binary(data["token"])
     end
 
-    test "when email is invalid", %{attrs: attrs, conn: conn} do
-      conn = post(conn, "/v1/signin", %{attrs | email: "wrong_email@gmail.com"})
+    test "when username is invalid", %{attrs: attrs, conn: conn} do
+      conn = post(conn, "/v1/signin", %{attrs | username: "wrong"})
 
       data = json_response(conn, 401)["errors"]
 
-      assert data["detail"] == "Email or Password are invalid"
+      assert data["detail"] == "Username or Password are invalid"
     end
 
     test "when password is invalid", %{attrs: attrs, conn: conn} do
@@ -36,7 +36,7 @@ defmodule CondapiWeb.Controllers.V1.SigninControllerTest do
 
       data = json_response(conn, 401)["errors"]
 
-      assert data["detail"] == "Email or Password are invalid"
+      assert data["detail"] == "Username or Password are invalid"
     end
   end
 end

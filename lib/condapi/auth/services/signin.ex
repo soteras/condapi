@@ -8,14 +8,14 @@ defmodule Condapi.Auth.Services.Signin do
   alias Condapi.Auth.Guardian
   alias Condapi.Auth.Io.Repo.User, as: UserRepo
 
-  def process(%{email: email, password: password}) do
-    with {:ok, user} <- UserRepo.fetch_by(email: String.downcase(email)),
+  def process(%{username: username, password: password}) do
+    with {:ok, user} <- UserRepo.fetch_by(username: String.downcase(username)),
          true <- Bcrypt.verify_pass(password, user.password_hash),
          {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       {:ok, %{token: token}}
     else
       _error ->
-        {:error, :invalid_email_or_password}
+        {:error, :invalid_username_or_password}
     end
   end
 end

@@ -6,17 +6,17 @@ defmodule Condapi.Auth.Services.SigninTest do
 
   describe "process/1" do
     setup do
-      user = insert(:user, email: "test@gmail.com", password: "abc123")
+      user = insert(:user, username: "test", password: "abc123")
 
       attrs = %{
-        email: "test@gmail.com",
+        username: "test",
         password: "abc123"
       }
 
       %{attrs: attrs, user: user}
     end
 
-    test "when email and password are valid", %{attrs: attrs, user: user} do
+    test "when username and password are valid", %{attrs: attrs, user: user} do
       {:ok, %{token: token}} = Service.process(attrs)
 
       {:ok, %{"sub" => sub, "iss" => iss}} = Guardian.decode_and_verify(token)
@@ -25,16 +25,16 @@ defmodule Condapi.Auth.Services.SigninTest do
       assert iss == "condapi"
     end
 
-    test "when email is invalid", %{attrs: attrs} do
-      attrs = %{attrs | email: "wrong_email@gmail.com"}
+    test "when username is invalid", %{attrs: attrs} do
+      attrs = %{attrs | username: "wrong"}
 
-      assert {:error, :invalid_email_or_password} == Service.process(attrs)
+      assert {:error, :invalid_username_or_password} == Service.process(attrs)
     end
 
     test "when password is invalid", %{attrs: attrs} do
       attrs = %{attrs | password: "wrong"}
 
-      assert {:error, :invalid_email_or_password} == Service.process(attrs)
+      assert {:error, :invalid_username_or_password} == Service.process(attrs)
     end
   end
 end

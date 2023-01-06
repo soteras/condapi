@@ -9,8 +9,8 @@ defmodule CondapiWeb.Controllers.V1.SigninController do
 
   action_fallback CondapiWeb.FallbackController
 
-  def create(conn, %{"email" => email, "password" => password}) do
-    with {:ok, result} <- SigninService.process(%{email: email, password: password}) do
+  def create(conn, %{"username" => username, "password" => password}) do
+    with {:ok, result} <- SigninService.process(%{username: username, password: password}) do
       render_response(result, conn, :created)
     end
   end
