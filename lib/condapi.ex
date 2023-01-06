@@ -49,6 +49,8 @@ defmodule Condapi do
       @type changeset :: Ecto.Changeset.t()
       @type query :: Ecto.Query.t()
 
+      alias Condapi.Repo
+
       import Condapi.Repo, only: [fetch: 2, fetch_by: 2, fetch_one: 1]
     end
   end
