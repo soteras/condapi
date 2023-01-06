@@ -24,6 +24,7 @@ defmodule Condapi.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Condapi.DataCase
+      import Condapi.Factory
     end
   end
 

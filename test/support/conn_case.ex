@@ -20,6 +20,7 @@ defmodule CondapiWeb.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
+      import Condapi.Factory
       import Plug.Conn
       import Phoenix.ConnTest
       import CondapiWeb.ConnCase

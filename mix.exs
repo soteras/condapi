@@ -20,7 +20,7 @@ defmodule Condapi.MixProject do
   def application do
     [
       mod: {Condapi.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ex_machina]
     ]
   end
 
@@ -46,7 +46,8 @@ defmodule Condapi.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6"},
       {:guardian, "~> 2.3"},
-      {:bcrypt_elixir, "~> 3.0"}
+      {:bcrypt_elixir, "~> 3.0"},
+      {:ex_machina, "~> 2.7", only: :test}
     ]
   end
 
